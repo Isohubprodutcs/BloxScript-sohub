@@ -127,7 +127,7 @@ local function MakeDraggable(gui)
             startPos = gui.Position
 
             input.Changed:Connect(function()
-                if input.UserInputStatus == Enum.UserInputStatus.End then
+                if input.UserInputState == Enum.UserInputState.End then
                     dragging = false
                 end
             end)
