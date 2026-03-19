@@ -68,6 +68,6 @@ getgenv().IsoHubConfig = {
         ESP_Chests = false,
         ESP_Fruits = false
     }
-}
+},
 
 return getgenv().IsoHubConfig
