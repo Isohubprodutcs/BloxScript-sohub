@@ -1,5 +1,5 @@
 -- [[ enemy.lua ]] --
--- IsoHub Hedef Bulucu (Blox Fruits Yaratıkları İçin Optimize Edildi)
+-- IsoHub Hedef Tespit ve Kilitleme Sistemi (FULL UNABRIDGED)
 
 getgenv().IsoHubEnemy = {}
 local Enemy = getgenv().IsoHubEnemy
@@ -7,49 +7,61 @@ local Enemy = getgenv().IsoHubEnemy
 local Core = getgenv().IsoHubCore
 local Config = getgenv().IsoHubConfig
 
--- Haritadaki canlı, hedeflenen ve en yakın yaratığı bulma fonksiyonu
+-- 1. Hedef Mobu Bulma Fonksiyonu
 Enemy.GetTarget = function()
     local targetName = Config.AutoFarm.TargetMob
     
-    -- Eğer config dosyasında bir hedef belirlenmemişse aramayı durdur
-    if targetName == "" then return nil end
+    -- Eğer hedef ismi boşsa (Quest daha alınmadıysa) dur
+    if targetName == "" or targetName == nil then 
+        return nil 
+    end
 
+    -- İsim Temizleme (Örn: "Bandit [Lv. 5]" -> "Bandit")
+    -- Bu kısım mobun isminin içindeki sayıları ve parantezleri siler
+    local cleanName = targetName:gsub(" %s*[%d+]", ""):gsub(" %s*%(%d+%)", ""):gsub(" %s*%[.*%]", "")
+    
     local closestMob = nil
     local shortestDistance = math.huge
-    local playerChar, playerHrp, playerHum = Core.GetCharacter()
+    
+    local character, hrp, humanoid = Core.GetCharacter()
+    if not hrp then return nil end
 
-    if not playerChar or not playerHrp then return nil end
+    -- Arama Alanları: Enemies klasörü veya direkt Workspace
+    local searchFolders = {
+        Core.Workspace:FindFirstChild("Enemies"),
+        Core.Workspace:FindFirstChild("NPCs"),
+        Core.Workspace
+    }
 
-    -- Blox Fruits'te düşmanlar Workspace altındaki Enemies klasöründe bulunur
-    local enemiesFolder = Core.Workspace:FindFirstChild("Enemies")
-    if not enemiesFolder then return nil end
-
-    for _, mob in pairs(enemiesFolder:GetChildren()) do
-        -- İsmi bizim config'de aradığımız isimle eşleşiyorsa
-        if mob.Name == targetName then
-            local mobHrp = mob:FindFirstChild("HumanoidRootPart")
-            local mobHum = mob:FindFirstChild("Humanoid")
-
-            -- Yaratığın fiziksel olarak var olduğunu ve canının 0'dan büyük (canlı) olduğunu doğrula
-            if mobHrp and mobHum and mobHum.Health > 0 then
-                local distance = (playerHrp.Position - mobHrp.Position).Magnitude
+    for _, folder in pairs(searchFolders) do
+        if folder then
+            local children = folder:GetChildren()
+            for i = 1, #children do
+                local mob = children[i]
                 
-                -- Karakterimize en yakın olanı seçmek zaman kazandırır ve anti-cheat'i daha az yorar
-                if distance < shortestDistance then
-                    shortestDistance = distance
-                    closestMob = mob
+                -- Mobun ismi aradığımız temiz isme benziyor mu?
+                if mob:IsA("Model") and (string.find(mob.Name, cleanName) or mob.Name == targetName) then
+                    local mobHrp = mob:FindFirstChild("HumanoidRootPart")
+                    local mobHum = mob:FindFirstChild("Humanoid")
+
+                    -- Mob yaşıyor mu ve fiziksel olarak orada mı?
+                    if mobHrp and mobHum and mobHum.Health > 0 then
+                        local distance = (hrp.Position - mobHrp.Position).Magnitude
+                        
+                        -- En yakındaki mobu seç
+                        if distance < shortestDistance then
+                            shortestDistance = distance
+                            closestMob = mob
+                        end
+                    end
                 end
             end
         end
+        -- Eğer en yakın mob bulunduysa aramayı bitir
+        if closestMob then break end
     end
 
     return closestMob
-end
-
--- Eğer haritada yaratık kalmamışsa spawn noktasına gitmek için altyapı (Tabanı korumak için boş eklendi)
-Enemy.GetSpawnPoint = function()
-    -- İleride haritadaki spawn noktalarını çekmek istersek bu fonksiyonu dolduracağız.
-    return nil
 end
 
 return Enemy
