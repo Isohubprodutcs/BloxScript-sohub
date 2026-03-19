@@ -1,28 +1,17 @@
--- config.lua içinde olmalı
-AutoFarm = {
-    Enabled = false,
-    AutoQuest = false,
-    BringMobs = false,
-    HasQuest = false, -- BU SATIRI EKLE
-},
--- [[ config.lua ]] --
--- IsoHub Ana Ayar Dosyası
--- Bu dosya sadece değişkenleri ve ayarları tutar. Fonksiyon içermez.
-
+-- [[ IsoHub Config ]] --
 getgenv().IsoHubConfig = {
-    -- Temel Sistem ve Arayüz Ayarları
     System = {
         HubName = "IsoHub",
-        VisualBypass = true, -- Arayüzde görünecek rol yapma/tasarım amaçlı bypass butonu
-        AutoSave = true,     -- Ayarları kaydetme özelliği
-        ToggleKey = "RightControl", -- PC için menüyü açıp kapatma tuşu
-        MobileToggle = true  -- MOBİL İÇİN EKRANDA GÖRÜNEN AÇMA/KAPAMA BUTONU
+        VisualBypass = true, -- Arayüzde görünecek tasarım amaçlı buton
+        AutoSave = true,
+        ToggleKey = "RightControl",
+        MobileToggle = true
     },
     
-    -- Otomatik Kasılma (Auto Farm) Ayarları
     AutoFarm = {
         Enabled = false,        
-        AutoQuest = false,      
+        AutoQuest = false,
+        HasQuest = false, -- Eklediğin satırı buraya, doğru yere koydum
         TargetMob = "",         
         BringMobs = false,      
         Distance = 12,          
@@ -30,7 +19,11 @@ getgenv().IsoHubConfig = {
         FastAttack = false      
     },
 
-    -- Savaş ve Silah (Combat) Ayarları
+    Combat = {
+        AutoClicker = false,
+        KillAura = false
+    } -- Tabloyu burada kapatıyoruz
+} -- Ana tabloyu burada kapattık. Bu çok önemli!
     Combat = {
         SelectWeapon = "Melee", 
         AutoClick = false,      
