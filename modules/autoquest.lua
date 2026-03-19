@@ -18,7 +18,7 @@ Quest.Data = {
     [40] = {QuestName = "BruteQuest1", MobName = "Brute", NpcName = "Quest Giver", NpcPos = CFrame.new(-1141.1, 4.7, 3824.3), World = 1},
     [60] = {QuestName = "DesertQuest1", MobName = "Desert Bandit", NpcName = "Quest Giver", NpcPos = CFrame.new(894.4, 6.4, 4392.5), World = 1},
     [75] = {QuestName = "DesertQuest2", MobName = "Desert Officer", NpcName = "Quest Giver", NpcPos = CFrame.new(894.4, 6.4, 4392.5), World = 1},
-    [90] = {QuestName = "SnowQuest1", MobName = "Snow Bandit", NpcName = "Quest Giver", NpcPos = CFrame.new(1389.7, 15.0, -1302.3) World = 1},
+    [90] = {QuestName = "SnowQuest1", MobName = "Snow Bandit", NpcName = "Quest Giver", NpcPos = CFrame.new(1389.7, 15.0, -1302.3), World = 1},
     [100] = {QuestName = "SnowQuest2", MobName = "Snowman", NpcName = "Quest Giver", NpcPos = CFrame.new(1389.7, 15.0, -1302.3), World = 1},
     [120] = {QuestName = "MarineQuest1", MobName = "Chief Petty Officer", NpcName = "Quest Giver", NpcPos = CFrame.new(-4855.2, 22.6, 4261.2), World = 1},
     [130] = {QuestName = "MarineQuest2", MobName = "First Lieutenant", NpcName = "Quest Giver", NpcPos = CFrame.new(-4855.2, 22.6, 4261.2), World = 1},
